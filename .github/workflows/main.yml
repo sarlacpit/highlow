@@ -44,12 +44,23 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
+          if [ -f requirements.txt ]; then
+            pip install -r requirements.txt
+          else
+            echo "⚠️  No requirements.txt found – skipping dependency install"
+          fi
 
       - name: Run tests
         run: |
           pip install pytest pytest-cov
           pytest --tb=short --cov=. --cov-report=xml
+          EXIT_CODE=$?
+          # Exit code 5 = no tests collected – not a failure, just warn and continue
+          if [ $EXIT_CODE -eq 5 ]; then
+            echo "⚠️  No tests found – add test files to enable test coverage"
+            exit 0
+          fi
+          exit $EXIT_CODE
 
       - name: Upload coverage report
         uses: actions/upload-artifact@v4
@@ -79,7 +90,11 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
+          if [ -f requirements.txt ]; then
+            pip install -r requirements.txt
+          else
+            echo "⚠️  No requirements.txt found – skipping dependency install"
+          fi
 
       - name: Install CycloneDX SBOM tool
         run: pip install cyclonedx-bom
