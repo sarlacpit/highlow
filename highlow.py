@@ -309,4 +309,4 @@ if __name__ == '__main__':
     try:
         play()
     except KeyboardInterrupt:
-        print(f"\n\n  {Y}Game aborted. McCoins returned to the void.{RESET}\n")
+        print(f"\n\n  {Y}Game aborted. McCoins returned to the abyss.{RESET}\n")
