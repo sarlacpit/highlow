@@ -2,4 +2,5 @@
 Game with reqs
 Higher or Lower - Python based terminal game.
 
-Gamble away your mcmoins
+Gamble away your mccoins
+Break the bank.
