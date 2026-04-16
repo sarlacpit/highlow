@@ -53,11 +53,13 @@ jobs:
       - name: Run tests
         run: |
           pip install pytest pytest-cov
+          set +e  # Disable immediate exit so we can inspect the exit code
           pytest --tb=short --cov=. --cov-report=xml
           EXIT_CODE=$?
-          # Exit code 5 = no tests collected – not a failure, just warn and continue
+          set -e  # Re-enable
+          # Exit code 5 = no tests collected – not a real failure
           if [ $EXIT_CODE -eq 5 ]; then
-            echo "⚠️  No tests found – add test files to enable test coverage"
+            echo "⚠️  No tests found – add test files prefixed with test_ to enable coverage"
             exit 0
           fi
           exit $EXIT_CODE
